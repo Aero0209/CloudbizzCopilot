@@ -1,38 +1,113 @@
-import { db } from '@/config/firebase';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyD412dmT45D7lWT4dkkECP5kaOrc3pfm5w",
+  authDomain: "cloudbizz-e76d1.firebaseapp.com",
+  projectId: "cloudbizz-e76d1",
+  storageBucket: "cloudbizz-e76d1.firebasestorage.app",
+  messagingSenderId: "227454553022",
+  appId: "1:227454553022:web:f4ca901e1edc3060f887ef",
+  measurementId: "G-BSH7TGDD0Z"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 const defaultModules = [
   {
-    id: 'billing',
-    key: 'billing',
-    name: 'Facturation',
-    description: 'Gestion des factures et des paiements',
+    id: 'catalogue-services',
+    key: 'catalogue-services',
+    name: 'Services',
+    description: 'Catalogue des services et abonnements',
     isEnabled: true,
-    icon: 'FileText',
+    icon: 'Package',
+    href: '/catalogue/services',
+    color: 'blue',
     features: [
       {
-        id: 'invoice-generation',
-        name: 'Génération automatique',
-        description: 'Génération automatique des factures mensuelles',
+        id: 'services-management',
+        name: 'Gestion des services',
+        description: 'Gestion des services et abonnements',
         isEnabled: true
-      },
-      {
-        id: 'invoice-validation',
-        name: 'Validation des factures',
-        description: 'Validation manuelle des factures avant envoi',
-        isEnabled: false
       }
     ],
     settings: {
       requireValidation: false,
-      autoGenerateInvoices: true,
-      paymentMethods: ['bank-transfer', 'sepa']
+      categories: [
+        {
+          id: 'remote-desktop',
+          name: 'Remote Desktop',
+          description: 'Solutions de bureau à distance',
+          icon: 'monitor',
+          slug: 'remote-desktop',
+          order: 1
+        },
+        {
+          id: 'microsoft-365',
+          name: 'Microsoft 365',
+          description: 'Suite Microsoft Office',
+          icon: 'microsoft',
+          slug: 'microsoft-365',
+          order: 2
+        },
+        {
+          id: 'accounting',
+          name: 'Comptabilité',
+          description: 'Solutions comptables',
+          icon: 'calculator',
+          slug: 'accounting',
+          order: 3
+        }
+      ]
     },
     requiredRoles: ['master', 'admin'],
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  // ... autres modules
+  {
+    id: 'catalogue-devices',
+    key: 'catalogue-devices',
+    name: 'Appareils',
+    description: 'Catalogue des appareils',
+    isEnabled: true,
+    icon: 'Laptop',
+    href: '/catalogue/devices',
+    color: 'green',
+    features: [
+      {
+        id: 'devices-management',
+        name: 'Gestion des appareils',
+        description: 'Gestion du parc d\'appareils',
+        isEnabled: true
+      }
+    ],
+    settings: {
+      requireValidation: true,
+      categories: [
+        {
+          id: 'computers',
+          name: 'Ordinateurs',
+          description: 'PC et portables',
+          icon: 'laptop',
+          slug: 'computers',
+          order: 1
+        },
+        {
+          id: 'phones',
+          name: 'Téléphones',
+          description: 'Smartphones et fixes',
+          icon: 'phone',
+          slug: 'phones',
+          order: 2
+        }
+      ]
+    },
+    requiredRoles: ['master', 'admin'],
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
 ];
 
 async function initializeModules() {

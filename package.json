@@ -15,7 +15,11 @@
     "add-activities": "node --loader ts-node/esm scripts/addCompanyActivities.ts",
     "migrate-services": "node --loader ts-node/esm scripts/migrateServices.ts",
     "create-categories": "node --loader ts-node/esm scripts/createCategories.ts",
-    "update-services-categories": "node --loader ts-node/esm scripts/updateServicesCategories.ts"
+    "update-services-categories": "node --loader ts-node/esm scripts/updateServicesCategories.ts",
+    "create-catalogues": "node --loader ts-node/esm scripts/initializeCatalogues.ts",
+    "initialize-modules": "node --loader ts-node/esm scripts/initializeModules.ts",
+    "export": "next build && next export",
+    "deploy": "npm run export && firebase deploy"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.2.0",
