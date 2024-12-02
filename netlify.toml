@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NEXT_PUBLIC_EMAILJS_PUBLIC_KEY = "0bbG6cpqaOY8YmzJp"
+  NEXT_PUBLIC_EMAILJS_SERVICE_ID = "service_xnwu0dw"
+  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID = "template_azp9w98"
+  NEXT_PUBLIC_APP_URL = "https://cloudbizz.netlify.app"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
